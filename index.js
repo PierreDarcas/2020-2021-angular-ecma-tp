@@ -17,13 +17,21 @@ async function getFox() {
   return image;
 }
 
+async function getHolidays(country) {
+  const response = await axios.get(`https://date.nager.at/api/v2/publicholidays/2017/${country}`);
+  const data = await response.data;
+  return data;
+}
+
 app.post('/', async (req, res) => {
   const catInfos = await getCat();
-  const foxImage = await getFox();
+  const image = await getFox();
+  const hollidays = await getHolidays(req.body.countryCode);
   return {
     message: `Welcome to Node Babel`,
     catFacts: catInfos,
-    fox: foxImage,
+    foxImage: image,
+    publicHolidays :hollidays
   };
 });
 
