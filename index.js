@@ -45,10 +45,9 @@ app.post('/', async (req, res) => {
   const image = await getFox();
   const hollidays = await getHolidays(req.body.countryCode);
   return {
-    message: `Welcome to Node Babel`,
+    foxPicture: image,
     catFacts: catInfos,
-    foxImage: image,
-    publicHolidays :hollidays
+    holidays :hollidays
   };
 });
 
