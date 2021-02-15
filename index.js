@@ -5,22 +5,39 @@ import axios from 'axios';
 const app = fastify({ logger: true });
 
 async function getCat() {
-  const response = await axios.get("https://cat-fact.herokuapp.com/facts/random?animal_type=cat&amount=3");
-  const data = await response.data;
-  const text = data.map((item => item.text));
-  return text;
+  try{
+    const response = await axios.get("https://cat-fact.herokuapp.com/facts/random?animal_type=cat&amount=3");
+    const data = await response.data;
+    const text = data.map((item => item.text));
+    return text;
+  } catch(error){
+    console.log("error", error);
+    return null;
+  }
+
 }
 
 async function getFox() {
-  const response = await axios.get("https://randomfox.ca/floof/");
-  const image = await response.data.image;
-  return image;
+  try{
+    const response = await axios.get("https://randomfox.ca/floof/");
+    const image = await response.data.image;
+    return image;
+  }catch(error){
+    console.log("error", error);
+    return null;
+  }
+
 }
 
 async function getHolidays(country) {
-  const response = await axios.get(`https://date.nager.at/api/v2/publicholidays/2017/${country}`);
-  const data = await response.data;
-  return data;
+  try{
+    const response = await axios.get(`https://date.nager.at/api/v2/publicholidays/2017/${country}`);
+    const data = await response.data;
+    return data;
+  }catch(error){
+    console.log("error", error);
+    return null;
+  }
 }
 
 app.post('/', async (req, res) => {
