@@ -4,11 +4,28 @@ import axios from 'axios';
 
 const app = fastify({ logger: true });
 
-app.get('/', async (req, res) => {
+function timeout(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+// const getCat = async () => {
+//   console.log('toto');
+//   let response = await axios.get(`https://cat-fact.herokuapp.com/facts/random?animal_type=cat&amount=3`)
+//     .then(res => response.json());
+// };
+
+async function getCat() {
+  const response = await axios.get("https://cat-fact.herokuapp.com/facts/random?animal_type=cat&amount=3");
+  const data = await response.data;
+  const text = data.map((item => item.text));
+  return text;
+}
+
+app.post('/', async (req, res) => {
+  const catInfos = await getCat();
   return {
-    message: `Welcome to Node Babel with ${
-      req.body?.testValue ?? 'no testValue'
-    }`,
+    message: `Welcome to Node Babel`,
+    catFacts: catInfos 
   };
 });
 
@@ -22,3 +39,5 @@ const start = async () => {
   }
 };
 start();
+
+
